@@ -8,7 +8,7 @@ See the Checkmk [documentation](https://docs.checkmk.com/latest/en/mkps.html) fo
 
 ## Plugin Information
 
-The Plugin provides monitoring for the Windows Defender health, like running mode, enabled features, scan age and signatures.
+The plugin provides monitoring of Windows Defender health, including running mode, enabled features, scan age, and outdated signatures.
 
 See [Check Details](#check-details) for more information.
 
