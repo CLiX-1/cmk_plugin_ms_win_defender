@@ -19,7 +19,7 @@
 
 
 ####################################################################################################
-# Checkmk check plugin for monitoring the Windows Defender state on a Windows host.
+# Checkmk check plugin for monitoring health of the Windows Defender on a Windows host.
 # This is part of the Microsoft Windows Defender plugin (ms_win_defender), which uses data generated
 # from the Windows defender script (ms_win_defender.ps1).
 
@@ -170,7 +170,7 @@ def check_ms_win_defender_health(params: Mapping[str, Any], section: Section) ->
 
     if section["DefenderSignaturesOutOfDate"] == "True":
         yield Result(
-            state=State.WARN,
+            state=State(params["outdated_signatures_state"]),
             summary="Signatures out of date",
         )
 
@@ -201,5 +201,6 @@ check_plugin_ms_win_defender_health = CheckPlugin(
             "tamper_protection",
         ],
         "max_quick_scan_age": ("fixed", (3, 6)),
+        "outdated_signatures_state": 1,
     },
 )
