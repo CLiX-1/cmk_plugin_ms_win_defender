@@ -35,6 +35,7 @@ from cmk.rulesets.v1.form_specs import (
     LevelDirection,
     MultipleChoice,
     MultipleChoiceElement,
+    ServiceState,
     SimpleLevels,
 )
 from cmk.rulesets.v1.form_specs.validators import NumberInRange
@@ -57,9 +58,14 @@ def _parameter_form_ms_win_defender_health() -> Dictionary:
                 parameter_form=CascadingSingleChoice(
                     title=Title("Expected Running Mode"),
                     help_text=Help(
-                        "Set the expected running mode for the Windows Defender. If the running "
-                        "mode is different from the expected one, the service will have the state "
-                        "CRIT."
+                        "Define the expected running mode for the Windows Defender.<br>"
+                        "If the actual mode differs from the expected mode, then the service "
+                        "will be <tt>CRIT</tt>.<br><br>"
+                        "<b>Active Mode</b>: Full protection with real-time scanning<br>"
+                        "<b>Passive Mode</b>: Limited functionality alongside third-party AV<br>"
+                        "<b>EDR Block Mode</b>: Endpoint Detection and Response blocking<br>"
+                        "<b>SxS Passive Mode</b>: Side-by-side passive operation<br>"
+                        "<b>Disabled</b>: Windows Defender is turned off"
                     ),
                     elements=[
                         CascadingSingleChoiceElement(
@@ -96,9 +102,10 @@ def _parameter_form_ms_win_defender_health() -> Dictionary:
                 parameter_form=MultipleChoice(
                     title=Title("Expected Enabled Features"),
                     help_text=Help(
-                        "Set the expected enabled features for the Windows Defender. Are the "
-                        "enabledfeatures different from the expected ones, the service will "
-                        "have the state CRIT."
+                        "Select which Windows Defender features must be enabled.<br>"
+                        "If any of the selected features are disabled on the system, then the "
+                        "service will be <tt>CRIT</tt>.<br>"
+                        "The default selection includes all protection features."
                     ),
                     elements=[
                         MultipleChoiceElement(
@@ -159,9 +166,9 @@ def _parameter_form_ms_win_defender_health() -> Dictionary:
                 parameter_form=SimpleLevels[int](
                     title=Title("Max. Quick Scan Age"),
                     help_text=Help(
-                        "Specify the upper levels for the maximum age of the last quick scan. "
-                        "The default values are 3 days (WARN) and 6 days (CRIT). "
-                        "To ignore the quick scan age , select 'No levels'."
+                        "Specify the upper thresholds for the maximum age of the last quick scan."
+                        "<br>The default values are 3 days (WARN) and 6 days (CRIT).<br>"
+                        'To ignore the quick scan age, select "No levels".'
                     ),
                     form_spec_template=Integer(
                         custom_validate=(NumberInRange(min_value=1),),
@@ -175,9 +182,9 @@ def _parameter_form_ms_win_defender_health() -> Dictionary:
                 parameter_form=SimpleLevels[int](
                     title=Title("Max. Full Scan Age"),
                     help_text=Help(
-                        "Specify the upper levels for the maximum age of the last full scan. "
-                        "There are no default levels. "
-                        "To ignore the full scan age , select 'No levels'."
+                        "Specify the upper thresholds for the maximum age of the last full scan. "
+                        "<br>There are no default thresholds.<br>"
+                        'To ignore the full scan age, select "No levels".'
                     ),
                     form_spec_template=Integer(
                         custom_validate=(NumberInRange(min_value=1),),
@@ -185,6 +192,18 @@ def _parameter_form_ms_win_defender_health() -> Dictionary:
                     ),
                     level_direction=LevelDirection.UPPER,
                     prefill_fixed_levels=DefaultValue(value=(0.0, 0.0)),
+                ),
+            ),
+            "outdated_signatures_state": DictElement(
+                parameter_form=ServiceState(
+                    title=Title("Outdated Signatures State"),
+                    help_text=Help(
+                        "Set the service state when Windows Defender signatures are outdated.<br>"
+                        "By default, Windows Defender considers signatures outdated after 14 days, "
+                        "but this can be configured via Group Policy, SCCM, etc.<br>"
+                        "The default severity level is <tt>WARN</tt>."
+                    ),
+                    prefill=DefaultValue(1),
                 ),
             ),
         },
