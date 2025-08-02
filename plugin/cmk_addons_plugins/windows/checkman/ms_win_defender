@@ -4,15 +4,27 @@ catalog: os/misc
 license: GPLv2
 distribution: Christopher Pommer
 description:
- This check monitors the health of Windows Defender from a Windows host.
+ This check monitors the Windows Defender health on Windows systems. It processes
+ data collected by the {ms_win_defender.ps1} agent plugin.
 
- It provides information about Defender The running mode, enabled features,
- the full and quick scan age, and outdated signatures.
+ The check evaluates the running mode, enabled protection features, scan ages,
+ and signature status. By default, it expects Windows Defender to run in
+ {Normal} mode with all core protection features enabled.
 
- You can configure check parameters for each of these.
+ You can configure which running mode is expected (Normal, Passive Mode, EDR Block
+ Mode, SxS Passive Mode, or Disabled), which protection features must be enabled,
+ and set thresholds for quick scan and full scan ages.
+ The check triggers configurable states for outdated signatures (default: WARNING),
+ configurable {WARN} and {CRIT} states for scan age thresholds, and {CRIT} state
+ for disabled required features or unexpected running mode.
 
- You have to deploy the agent script {ms_win_defender.ps1} to the host.
+ Protection features include Antimalware Service, Antispyware Engine, Antivirus
+ Engine, Behavior Monitoring, IOAV Protection, Network Protection, On-Access
+ Protection, Real-time Protection, and Tamper Protection.
+
+ You must deploy the {ms_win_defender.ps1} agent plugin to Windows hosts
+ to collect Windows Defender status information.
 
 discovery:
- A service named {Windows Defender health} is created on each host on which
- you have deployed the agent script.
+ One service named {Windows Defender health} is created on each Windows host where
+ the agent plugin is deployed.
