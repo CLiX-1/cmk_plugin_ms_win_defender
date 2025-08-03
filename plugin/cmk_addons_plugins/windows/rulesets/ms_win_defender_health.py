@@ -17,11 +17,12 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-
 ####################################################################################################
-# Checkmk ruleset to set the different values for the Windows Defender health check.
-# This ruleset is part of the Microsoft Windows Defender plugin (ms_win_defender).
-
+# CHECKMK RULESET: Microsoft Windows Defender Health (check plug-in)
+#
+# This file defines the check plug-in parameters for the "Microsoft Windows Defender Health" check.
+# The check is part of the Microsoft Windows Defender agent plug-in.
+####################################################################################################
 
 from cmk.rulesets.v1 import Help, Title
 from cmk.rulesets.v1.form_specs import (
@@ -167,8 +168,8 @@ def _parameter_form_ms_win_defender_health() -> Dictionary:
                     title=Title("Max. Quick Scan Age"),
                     help_text=Help(
                         "Specify the upper thresholds for the maximum age of the last quick scan."
-                        "<br>The default values are 3 days (WARN) and 6 days (CRIT).<br>"
-                        'To ignore the quick scan age, select "No levels".'
+                        "<br>The default values are 3 days (<tt>WARN</tt>) and 6 days "
+                        '(<tt>CRIT</tt>).<br>To ignore the quick scan age, select "No levels".'
                     ),
                     form_spec_template=Integer(
                         custom_validate=(NumberInRange(min_value=1),),

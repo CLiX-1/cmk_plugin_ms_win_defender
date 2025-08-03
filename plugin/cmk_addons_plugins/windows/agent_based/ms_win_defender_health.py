@@ -17,13 +17,14 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-
 ####################################################################################################
-# Checkmk check plugin for monitoring health of the Windows Defender on a Windows host.
-# This is part of the Microsoft Windows Defender plugin (ms_win_defender), which uses data generated
-# from the Windows defender script (ms_win_defender.ps1).
+# CHECKMK CHECK PLUG-IN: Microsoft Windows Defender Health
+#
+# This plug-in generates the Checkmk services and determines their status.
+# This file is part of the Microsoft Windows Defender agent plug-in (ms_win_defender.ps1).
+####################################################################################################
 
-# Example data from agent plugin:
+# Example data from agent plug-in:
 # <<<ms_win_defender_health:sep(124)>>>
 # AMRunningMode|Normal
 # AMServiceEnabled|True

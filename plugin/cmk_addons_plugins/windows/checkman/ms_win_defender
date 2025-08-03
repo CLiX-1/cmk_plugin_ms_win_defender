@@ -4,27 +4,44 @@ catalog: os/misc
 license: GPLv2
 distribution: Christopher Pommer
 description:
- This check monitors the Windows Defender health on Windows systems. It processes
- data collected by the {ms_win_defender.ps1} agent plugin.
+ This check monitors the health status of Windows Defender antivirus on Windows
+ systems. It processes data collected by the {ms_win_defender.ps1} agent plugin,
+ which queries Windows Defender configuration and status information.
 
- The check evaluates the running mode, enabled protection features, scan ages,
- and signature status. By default, it expects Windows Defender to run in
- {Normal} mode with all core protection features enabled.
+ The check evaluates multiple aspects of Windows Defender health including
+ running mode, protection features, scan recency, and signature status.
 
- You can configure which running mode is expected (Normal, Passive Mode, EDR Block
- Mode, SxS Passive Mode, or Disabled), which protection features must be enabled,
- and set thresholds for quick scan and full scan ages.
- The check triggers configurable states for outdated signatures (default: WARNING),
- configurable {WARN} and {CRIT} states for scan age thresholds, and {CRIT} state
- for disabled required features or unexpected running mode.
+ Running mode validation:
 
- Protection features include Antimalware Service, Antispyware Engine, Antivirus
- Engine, Behavior Monitoring, IOAV Protection, Network Protection, On-Access
- Protection, Real-time Protection, and Tamper Protection.
+ - Configurable expected mode (Normal, Passive, EDR Block, SxS Passive, Disabled)
+
+ - {CRIT} if actual mode differs from expected mode
+
+ Protection features monitoring:
+
+ - Configurable list of required features (Antimalware Service, Antivirus Engine,
+   Antispyware Engine, Behavior Monitoring, IOAV Protection, Network Protection,
+   On-Access Protection, Real-time Protection, Tamper Protection)
+
+ - {CRIT} if any required feature is disabled
+
+ Scan age thresholds:
+
+ - Quick scan age: Default 3 days {WARN}, 6 days {CRIT}
+
+ - Full scan age: Configurable thresholds (no defaults)
+
+ Signature status:
+
+ - Configurable state when signatures are outdated (default: {WARN})
+
+ Default mapping assumes Normal mode with all core protection features enabled.
+ The service displays active feature counts, disabled features, scan ages, and
+ signature status for comprehensive health monitoring.
 
  You must deploy the {ms_win_defender.ps1} agent plugin to Windows hosts
  to collect Windows Defender status information.
 
 discovery:
- One service named {Windows Defender health} is created on each Windows host where
- the agent plugin is deployed.
+ One service named "Windows Defender health" is created on each Windows host
+ where the agent plugin is deployed and Windows Defender data is available.

@@ -17,11 +17,12 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-
 ####################################################################################################
-# Bakery plugin for the deployment of the Windows Defender script.
-# This is part of the Microsoft Windows Defender plugin (ms_win_defender).
-
+# CHECKMK BAKERY PLUG-IN: Microsoft Windows Defender
+#
+# This plug-in packages the agent script and files for deployment via the Checkmk agent bakery.
+# This file is part of the Microsoft Windows Defender agent plug-in (ms_win_defender.ps1).
+####################################################################################################
 
 from pathlib import Path
 from typing import TypedDict

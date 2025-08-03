@@ -14,11 +14,12 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-
 ####################################################################################################
-# Checkmk agent script for monitoring the Windows Defender health.
-# This script is part of the Microsoft Windows Defender plugin (ms_win_defender).
-
+# CHECKMK AGENT PLUG-IN SCRIPT: Microsoft Windows Defender
+#
+# This script generates the Checkmk agent section for the Windows Defender health.
+# This file is part of the Microsoft Windows Defender agent plug-in.
+####################################################################################################
 
 try {
     $DefenderStatus = Get-MpComputerStatus
